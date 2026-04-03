@@ -1,0 +1,59 @@
+<!--
+  TRMNL Private Plugin Markup — Prayer Times
+  Paste this into your TRMNL Private Plugin markup editor.
+  Uses TRMNL Framework v3 classes + Liquid template variables.
+-->
+
+<div class="screen">
+  <div class="view view--full">
+    <div class="layout layout--col gap--space-between">
+
+      <!-- Header -->
+      <div class="col">
+        <div class="row row--center gap--small">
+          <span class="title">Prayer Times</span>
+        </div>
+        <div class="row row--center gap--small">
+          <span class="label label--small">{{ date }}</span>
+          <span class="label label--small text--gray-50">{{ hijri_date }}</span>
+        </div>
+      </div>
+
+      <!-- Prayer list -->
+      <div class="col gap">
+
+        {% assign prayers = "Fajr,Sunrise,Dhuhr,Asr,Maghrib,Isha" | split: "," %}
+        {% assign times = fajr | append: "," | append: sunrise | append: "," | append: dhuhr | append: "," | append: asr | append: "," | append: maghrib | append: "," | append: isha %}
+        {% assign time_list = times | split: "," %}
+
+        {% for prayer in prayers %}
+          {% assign idx = forloop.index0 %}
+          {% assign time = time_list[idx] %}
+          {% assign is_next = false %}
+          {% if prayer == next_prayer %}
+            {% assign is_next = true %}
+          {% endif %}
+
+          <div class="item {% if is_next %}item--emphasis-1{% endif %}">
+            <div class="meta"></div>
+            <div class="content">
+              <div class="row row--center gap--space-between">
+                <span class="{% if is_next %}title title--small{% else %}label{% endif %}">{{ prayer }}</span>
+                <span class="{% if is_next %}value value--small{% else %}description{% endif %}">{{ time }}</span>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+
+      <!-- Footer -->
+      <div class="col">
+        <div class="row row--center">
+          <span class="label label--small text--gray-50">Next: {{ next_prayer }}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

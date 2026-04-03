@@ -1,0 +1,27 @@
+name: Push Prayer Times to TRMNL
+
+on:
+  schedule:
+    # Runs every 30 minutes to keep "next prayer" highlight accurate
+    - cron: "*/30 * * * *"
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Push prayer times
+        run: node push.js
+        env:
+          TRMNL_PLUGIN_UUID: ${{ secrets.TRMNL_PLUGIN_UUID }}
+          TRMNL_API_KEY: ${{ secrets.TRMNL_API_KEY }}
+          PRAYER_LATITUDE: ${{ vars.PRAYER_LATITUDE }}
+          PRAYER_LONGITUDE: ${{ vars.PRAYER_LONGITUDE }}
+          PRAYER_METHOD: ${{ vars.PRAYER_METHOD }}
+          PRAYER_TIMEZONE: ${{ vars.PRAYER_TIMEZONE }}

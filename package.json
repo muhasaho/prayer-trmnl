@@ -1,0 +1,9 @@
+{
+  "name": "prayer-trmnl",
+  "version": "1.0.0",
+  "description": "Push Islamic prayer times to a TRMNL e-paper device",
+  "type": "module",
+  "scripts": {
+    "push": "node push.js"
+  }
+}

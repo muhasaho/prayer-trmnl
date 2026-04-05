@@ -1,57 +1,62 @@
 <!--
   TRMNL Private Plugin Markup — Prayer Times
   Paste this into your TRMNL Private Plugin markup editor.
-  Uses TRMNL Framework v3 classes + Liquid template variables.
 -->
 
 <div class="screen">
   <div class="view view--full">
-    <div class="layout layout--col gap--space-between">
+    <div class="layout layout--col gap">
 
-      <!-- Header -->
-      <div class="col">
-        <div class="row row--center gap--small">
-          <span class="title">Prayer Times</span>
-        </div>
-        <div class="row row--center gap--small">
-          <span class="label label--small">{{ date }}</span>
-          <span class="label label--small text--gray-50">{{ hijri_date }}</span>
-        </div>
-      </div>
-
-      <!-- Prayer list -->
-      <div class="col gap">
-
-        {% assign prayers = "Fajr,Sunrise,Dhuhr,Asr,Maghrib,Isha" | split: "," %}
-        {% assign times = fajr | append: "," | append: sunrise | append: "," | append: dhuhr | append: "," | append: asr | append: "," | append: maghrib | append: "," | append: isha %}
-        {% assign time_list = times | split: "," %}
-
-        {% for prayer in prayers %}
-          {% assign idx = forloop.index0 %}
-          {% assign time = time_list[idx] %}
-          {% assign is_next = false %}
-          {% if prayer == next_prayer %}
-            {% assign is_next = true %}
-          {% endif %}
-
-          <div class="item {% if is_next %}item--emphasis-1{% endif %}">
-            <div class="meta"></div>
-            <div class="content">
-              <div class="row row--center gap--space-between">
-                <span class="{% if is_next %}title title--small{% else %}label{% endif %}">{{ prayer }}</span>
-                <span class="{% if is_next %}value value--small{% else %}description{% endif %}">{{ time }}</span>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-
-      </div>
-
-      <!-- Footer -->
-      <div class="col">
+      <div style="width:92%;margin:0 auto;">
         <div class="row row--center">
-          <span class="label label--small text--gray-50">Next: {{ next_prayer }}</span>
+          <span class="label label--small">{{ date }}</span>
         </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;width:92%;margin:0 auto;">
+
+        <div
+          style="display:flex;justify-content:space-between;align-items:center;width:100%;min-height:58px;box-sizing:border-box;padding:14px 18px;border-radius:16px;border:1px solid #d3d3d3;{% if next_prayer == 'Fajr' %}background:#000;border-color:#000;color:#fff;{% else %}background:#fff;{% endif %}"
+        >
+          <span class="label {% if next_prayer == 'Fajr' %}text--white{% endif %}" style="font-size:22px;line-height:1.1;">Fajr</span>
+          <span class="value {% if next_prayer == 'Fajr' %}text--white{% endif %}" style="font-size:24px;line-height:1.1;font-weight:425;">{{ fajr }}</span>
+        </div>
+
+        <div
+          style="display:flex;justify-content:space-between;align-items:center;width:100%;min-height:58px;box-sizing:border-box;padding:14px 18px;border-radius:16px;border:1px solid #d3d3d3;{% if next_prayer == 'Sunrise' %}background:#000;border-color:#000;color:#fff;{% else %}background:#fff;{% endif %}"
+        >
+          <span class="label {% if next_prayer == 'Sunrise' %}text--white{% endif %}" style="font-size:22px;line-height:1.1;">Sunrise</span>
+          <span class="value {% if next_prayer == 'Sunrise' %}text--white{% endif %}" style="font-size:24px;line-height:1.1;font-weight:425;">{{ sunrise }}</span>
+        </div>
+
+        <div
+          style="display:flex;justify-content:space-between;align-items:center;width:100%;min-height:58px;box-sizing:border-box;padding:14px 18px;border-radius:16px;border:1px solid #d3d3d3;{% if next_prayer == 'Dhuhr' %}background:#000;border-color:#000;color:#fff;{% else %}background:#fff;{% endif %}"
+        >
+          <span class="label {% if next_prayer == 'Dhuhr' %}text--white{% endif %}" style="font-size:22px;line-height:1.1;">Dhuhr</span>
+          <span class="value {% if next_prayer == 'Dhuhr' %}text--white{% endif %}" style="font-size:24px;line-height:1.1;font-weight:425;">{{ dhuhr }}</span>
+        </div>
+
+        <div
+          style="display:flex;justify-content:space-between;align-items:center;width:100%;min-height:58px;box-sizing:border-box;padding:14px 18px;border-radius:16px;border:1px solid #d3d3d3;{% if next_prayer == 'Asr' %}background:#000;border-color:#000;color:#fff;{% else %}background:#fff;{% endif %}"
+        >
+          <span class="label {% if next_prayer == 'Asr' %}text--white{% endif %}" style="font-size:22px;line-height:1.1;">Asr</span>
+          <span class="value {% if next_prayer == 'Asr' %}text--white{% endif %}" style="font-size:24px;line-height:1.1;font-weight:425;">{{ asr }}</span>
+        </div>
+
+        <div
+          style="display:flex;justify-content:space-between;align-items:center;width:100%;min-height:58px;box-sizing:border-box;padding:14px 18px;border-radius:16px;border:1px solid #d3d3d3;{% if next_prayer == 'Maghrib' %}background:#000;border-color:#000;color:#fff;{% else %}background:#fff;{% endif %}"
+        >
+          <span class="label {% if next_prayer == 'Maghrib' %}text--white{% endif %}" style="font-size:22px;line-height:1.1;">Maghrib</span>
+          <span class="value {% if next_prayer == 'Maghrib' %}text--white{% endif %}" style="font-size:24px;line-height:1.1;font-weight:425;">{{ maghrib }}</span>
+        </div>
+
+        <div
+          style="display:flex;justify-content:space-between;align-items:center;width:100%;min-height:58px;box-sizing:border-box;padding:14px 18px;border-radius:16px;border:1px solid #d3d3d3;{% if next_prayer == 'Isha' %}background:#000;border-color:#000;color:#fff;{% else %}background:#fff;{% endif %}"
+        >
+          <span class="label {% if next_prayer == 'Isha' %}text--white{% endif %}" style="font-size:22px;line-height:1.1;">Isha</span>
+          <span class="value {% if next_prayer == 'Isha' %}text--white{% endif %}" style="font-size:24px;line-height:1.1;font-weight:425;">{{ isha }}</span>
+        </div>
+
       </div>
 
     </div>

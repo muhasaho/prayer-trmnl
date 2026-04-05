@@ -12,7 +12,7 @@
  */
 
 const ALADHAN_API = "https://api.aladhan.com/v1/timings";
-const TRMNL_API = "https://usetrmnl.com/api/custom_plugins";
+const TRMNL_API = "https://trmnl.com/api/custom_plugins/";
 
 async function fetchPrayerTimes() {
   const lat = process.env.PRAYER_LATITUDE;

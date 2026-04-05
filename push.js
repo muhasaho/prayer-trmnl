@@ -95,6 +95,16 @@ function determineNextPrayer(timings) {
   return next ? next.name : prayers[0].name; // wrap to Fajr if past Isha
 }
 
+function formatLastRefreshed() {
+  const tz = process.env.PRAYER_TIMEZONE || "UTC";
+  return new Date().toLocaleTimeString("en-US", {
+    timeZone: tz,
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
+
 async function pushToTrmnl(mergeVariables) {
   const uuid = process.env.TRMNL_PLUGIN_UUID;
   const apiKey = process.env.TRMNL_API_KEY;
@@ -134,6 +144,7 @@ async function main() {
     isha: to12Hour(timings.Isha),
     next_prayer: nextPrayer,
     date,
+    last_refreshed: formatLastRefreshed(),
     hijri_date: `${hijri} ${hijriMonth} ${hijriYear}`,
   };
 

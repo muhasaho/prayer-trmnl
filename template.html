@@ -3,51 +3,67 @@
   Paste this into your TRMNL Private Plugin markup editor.
 -->
 
-<div class="layout layout--col gap" style="width:100%;align-items:center;">
-  <div style="display:flex;flex-direction:column;gap:12px;width:92%;box-sizing:border-box;">
-
-    <div
-      style="display:flex;justify-content:space-between;align-items:center;width:100%;min-height:58px;box-sizing:border-box;padding:14px 18px;border-radius:16px;border:1px solid #d3d3d3;{% if next_prayer == 'Fajr' %}background:#000;border-color:#000;color:#fff;{% else %}background:#fff;{% endif %}"
-    >
-      <span class="label {% if next_prayer == 'Fajr' %}text--white{% endif %}" style="font-size:22px;line-height:1.1;">Fajr</span>
-      <span class="value {% if next_prayer == 'Fajr' %}text--white{% endif %}" style="font-size:24px;line-height:1.1;font-weight:425;">{{ fajr }}</span>
+<div class="layout layout--col gap" style="width:100%;align-items:center;justify-content:flex-start;padding-top:8px;">
+  <div class="list" style="width:100%;gap:14px;box-sizing:border-box;">
+    <div class="item {% if next_prayer == 'Fajr' %}item--emphasis-3{% endif %}" style="align-items:center;line-height:1;">
+      <div class="meta" style="width:18px;min-height:40px;">
+        <span class="index">F</span>
+      </div>
+      <div class="content grow border--h-1" style="display:flex;flex-direction:row;justify-content:space-between;align-items:baseline;gap:18px;width:100%;line-height:1;overflow:visible;padding-bottom:8px;--border-1-h-color:#d8d8d8;">
+        <span class="label" style="font-size:21px;line-height:1.1;{% if next_prayer == 'Fajr' %}font-weight:600;{% endif %}">Fajr</span>
+        <span class="value" style="font-size:24px;line-height:1.1;font-weight:{% if next_prayer == 'Fajr' %}600{% else %}425{% endif %};">{{ fajr }}</span>
+      </div>
     </div>
 
-    <div
-      style="display:flex;justify-content:space-between;align-items:center;width:100%;min-height:58px;box-sizing:border-box;padding:14px 18px;border-radius:16px;border:1px solid #d3d3d3;{% if next_prayer == 'Sunrise' %}background:#000;border-color:#000;color:#fff;{% else %}background:#fff;{% endif %}"
-    >
-      <span class="label {% if next_prayer == 'Sunrise' %}text--white{% endif %}" style="font-size:22px;line-height:1.1;">Sunrise</span>
-      <span class="value {% if next_prayer == 'Sunrise' %}text--white{% endif %}" style="font-size:24px;line-height:1.1;font-weight:425;">{{ sunrise }}</span>
+    <div class="item {% if next_prayer == 'Sunrise' %}item--emphasis-3{% endif %}" style="align-items:center;line-height:1;">
+      <div class="meta" style="width:18px;min-height:40px;">
+        <span class="index">S</span>
+      </div>
+      <div class="content grow border--h-1" style="display:flex;flex-direction:row;justify-content:space-between;align-items:baseline;gap:18px;width:100%;line-height:1;overflow:visible;padding-bottom:8px;--border-1-h-color:#d8d8d8;">
+        <span class="label" style="font-size:21px;line-height:1.1;{% if next_prayer == 'Sunrise' %}font-weight:600;{% endif %}">Sunrise</span>
+        <span class="value" style="font-size:24px;line-height:1.1;font-weight:{% if next_prayer == 'Sunrise' %}600{% else %}425{% endif %};">{{ sunrise }}</span>
+      </div>
     </div>
 
-    <div
-      style="display:flex;justify-content:space-between;align-items:center;width:100%;min-height:58px;box-sizing:border-box;padding:14px 18px;border-radius:16px;border:1px solid #d3d3d3;{% if next_prayer == 'Dhuhr' %}background:#000;border-color:#000;color:#fff;{% else %}background:#fff;{% endif %}"
-    >
-      <span class="label {% if next_prayer == 'Dhuhr' %}text--white{% endif %}" style="font-size:22px;line-height:1.1;">Dhuhr</span>
-      <span class="value {% if next_prayer == 'Dhuhr' %}text--white{% endif %}" style="font-size:24px;line-height:1.1;font-weight:425;">{{ dhuhr }}</span>
+    <div class="item {% if next_prayer == 'Dhuhr' %}item--emphasis-3{% endif %}" style="align-items:center;line-height:1;">
+      <div class="meta" style="width:18px;min-height:40px;">
+        <span class="index">D</span>
+      </div>
+      <div class="content grow border--h-1" style="display:flex;flex-direction:row;justify-content:space-between;align-items:baseline;gap:18px;width:100%;line-height:1;overflow:visible;padding-bottom:8px;--border-1-h-color:{% if next_prayer == 'Dhuhr' %}#555{% else %}#d8d8d8{% endif %};">
+        <span class="label" style="font-size:21px;line-height:1.1;{% if next_prayer == 'Dhuhr' %}font-weight:600;{% endif %}">Dhuhr</span>
+        <span class="value" style="font-size:24px;line-height:1.1;font-weight:{% if next_prayer == 'Dhuhr' %}600{% else %}425{% endif %};">{{ dhuhr }}</span>
+      </div>
     </div>
 
-    <div
-      style="display:flex;justify-content:space-between;align-items:center;width:100%;min-height:58px;box-sizing:border-box;padding:14px 18px;border-radius:16px;border:1px solid #d3d3d3;{% if next_prayer == 'Asr' %}background:#000;border-color:#000;color:#fff;{% else %}background:#fff;{% endif %}"
-    >
-      <span class="label {% if next_prayer == 'Asr' %}text--white{% endif %}" style="font-size:22px;line-height:1.1;">Asr</span>
-      <span class="value {% if next_prayer == 'Asr' %}text--white{% endif %}" style="font-size:24px;line-height:1.1;font-weight:425;">{{ asr }}</span>
+    <div class="item {% if next_prayer == 'Asr' %}item--emphasis-3{% endif %}" style="align-items:center;line-height:1;">
+      <div class="meta" style="width:18px;min-height:40px;">
+        <span class="index">A</span>
+      </div>
+      <div class="content grow border--h-1" style="display:flex;flex-direction:row;justify-content:space-between;align-items:baseline;gap:18px;width:100%;line-height:1;overflow:visible;padding-bottom:8px;--border-1-h-color:#d8d8d8;">
+        <span class="label" style="font-size:21px;line-height:1.1;{% if next_prayer == 'Asr' %}font-weight:600;{% endif %}">Asr</span>
+        <span class="value" style="font-size:24px;line-height:1.1;font-weight:{% if next_prayer == 'Asr' %}600{% else %}425{% endif %};">{{ asr }}</span>
+      </div>
     </div>
 
-    <div
-      style="display:flex;justify-content:space-between;align-items:center;width:100%;min-height:58px;box-sizing:border-box;padding:14px 18px;border-radius:16px;border:1px solid #d3d3d3;{% if next_prayer == 'Maghrib' %}background:#000;border-color:#000;color:#fff;{% else %}background:#fff;{% endif %}"
-    >
-      <span class="label {% if next_prayer == 'Maghrib' %}text--white{% endif %}" style="font-size:22px;line-height:1.1;">Maghrib</span>
-      <span class="value {% if next_prayer == 'Maghrib' %}text--white{% endif %}" style="font-size:24px;line-height:1.1;font-weight:425;">{{ maghrib }}</span>
+    <div class="item {% if next_prayer == 'Maghrib' %}item--emphasis-3{% endif %}" style="align-items:center;line-height:1;">
+      <div class="meta" style="width:18px;min-height:40px;">
+        <span class="index">M</span>
+      </div>
+      <div class="content grow border--h-1" style="display:flex;flex-direction:row;justify-content:space-between;align-items:baseline;gap:18px;width:100%;line-height:1;overflow:visible;padding-bottom:8px;--border-1-h-color:#d8d8d8;">
+        <span class="label" style="font-size:21px;line-height:1.1;{% if next_prayer == 'Maghrib' %}font-weight:600;{% endif %}">Maghrib</span>
+        <span class="value" style="font-size:24px;line-height:1.1;font-weight:{% if next_prayer == 'Maghrib' %}600{% else %}425{% endif %};">{{ maghrib }}</span>
+      </div>
     </div>
 
-    <div
-      style="display:flex;justify-content:space-between;align-items:center;width:100%;min-height:58px;box-sizing:border-box;padding:14px 18px;border-radius:16px;border:1px solid #d3d3d3;{% if next_prayer == 'Isha' %}background:#000;border-color:#000;color:#fff;{% else %}background:#fff;{% endif %}"
-    >
-      <span class="label {% if next_prayer == 'Isha' %}text--white{% endif %}" style="font-size:22px;line-height:1.1;">Isha</span>
-      <span class="value {% if next_prayer == 'Isha' %}text--white{% endif %}" style="font-size:24px;line-height:1.1;font-weight:425;">{{ isha }}</span>
+    <div class="item {% if next_prayer == 'Isha' %}item--emphasis-3{% endif %}" style="align-items:center;line-height:1;">
+      <div class="meta" style="width:18px;min-height:40px;">
+        <span class="index">I</span>
+      </div>
+      <div class="content grow" style="display:flex;flex-direction:row;justify-content:space-between;align-items:baseline;gap:18px;width:100%;line-height:1;overflow:visible;">
+        <span class="label" style="font-size:21px;line-height:1.1;{% if next_prayer == 'Isha' %}font-weight:600;{% endif %}">Isha</span>
+        <span class="value" style="font-size:24px;line-height:1.1;font-weight:{% if next_prayer == 'Isha' %}600{% else %}425{% endif %};">{{ isha }}</span>
+      </div>
     </div>
-
   </div>
 
 </div>

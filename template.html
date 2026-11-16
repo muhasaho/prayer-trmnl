@@ -1,7 +1,44 @@
 <!--
   TRMNL Private Plugin Markup — Prayer Times
   Paste this into your TRMNL Private Plugin markup editor.
+  Data comes from the plugin's polling URL (AlAdhan /v1/timings), exposed as `data`.
 -->
+
+{%- comment -%} Local time in the TRMNL account's time zone. {%- endcomment -%}
+{%- assign now_s = "now" | date: "%s" | plus: trmnl.user.utc_offset -%}
+{%- assign now_h = now_s | date: "%H" | plus: 0 -%}
+{%- assign now_m = now_s | date: "%M" | plus: 0 -%}
+{%- assign now_min = now_h | times: 60 | plus: now_m -%}
+{%- assign last_refreshed = now_s | date: "%-l:%M %p" -%}
+{%- assign date = data.date.readable -%}
+
+{%- comment -%} next_prayer: first time later than now, wrapping to Fajr after Isha. {%- endcomment -%}
+{%- assign names = "Fajr,Sunrise,Dhuhr,Asr,Maghrib,Isha" | split: "," -%}
+{%- assign next_prayer = "Fajr" -%}
+{%- assign found = false -%}
+{%- assign display = "" -%}
+{%- for name in names -%}
+  {%- assign t = data.timings[name] | split: " " | first -%}
+  {%- assign h = t | split: ":" | first | plus: 0 -%}
+  {%- assign m = t | split: ":" | last -%}
+  {%- assign mins = h | times: 60 | plus: m -%}
+  {%- if found == false and mins > now_min -%}
+    {%- assign next_prayer = name -%}
+    {%- assign found = true -%}
+  {%- endif -%}
+  {%- assign h12 = h | modulo: 12 -%}
+  {%- if h12 == 0 -%}{%- assign h12 = 12 -%}{%- endif -%}
+  {%- if h >= 12 -%}{%- assign ampm = "PM" -%}{%- else -%}{%- assign ampm = "AM" -%}{%- endif -%}
+  {%- capture shown -%}{{ h12 }}:{{ m }} {{ ampm }}{%- endcapture -%}
+  {%- assign display = display | append: shown | append: "|" -%}
+{%- endfor -%}
+{%- assign shown_times = display | split: "|" -%}
+{%- assign fajr = shown_times[0] -%}
+{%- assign sunrise = shown_times[1] -%}
+{%- assign dhuhr = shown_times[2] -%}
+{%- assign asr = shown_times[3] -%}
+{%- assign maghrib = shown_times[4] -%}
+{%- assign isha = shown_times[5] -%}
 
 <div class="layout layout--col gap" style="width:100%;align-items:center;justify-content:flex-start;padding-top:8px;">
   <div class="list" style="width:100%;gap:14px;box-sizing:border-box;">

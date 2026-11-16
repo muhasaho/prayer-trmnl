@@ -1,92 +1,36 @@
 # prayer-trmnl
 
-Push daily Islamic prayer times to a TRMNL private plugin and render them as a simple highlighted schedule on the device.
+Show today's Islamic prayer times on a TRMNL device, with the next prayer highlighted.
 
-## What This Repo Contains
-
-- [push.js](/Users/ms/code/personal/prayer-trmnl/push.js): fetches prayer times from AlAdhan, determines the next prayer, and pushes `merge_variables` to TRMNL
-- [template.html](/Users/ms/code/personal/prayer-trmnl/template.html): TRMNL plugin markup that renders the prayer schedule and highlights the upcoming prayer
-- [.github/workflows/push-prayer-times.yml](/Users/ms/code/personal/prayer-trmnl/.github/workflows/push-prayer-times.yml): runs the push every 30 minutes
+TRMNL polls the [AlAdhan API](https://aladhan.com/prayer-times-api) directly. There is no server, script, or GitHub Action: the plugin fetches the day's timings and [template.html](template.html) works out the next prayer when the screen renders.
 
 ## How It Works
 
-1. TRMNL renders `template.html` inside a private plugin.
-2. `push.js` fetches today's prayer times for your configured latitude/longitude and calculation method.
-3. The script converts the times to 12-hour format, finds the next prayer, and pushes those values to your TRMNL plugin.
-4. The template highlights the next prayer row on the device.
+1. On each refresh, TRMNL fetches the polling URL, which asks AlAdhan for today's timings in Edmonton.
+2. The JSON response is available to the markup as `data` (`data.timings.Fajr` is `"07:19"`, `data.date.readable` is `"16 Nov 2026"`).
+3. [template.html](template.html) gets the local time from `"now"` plus `trmnl.user.utc_offset`, picks the first prayer later than now (wrapping to Fajr after Isha), and formats each time as 12-hour.
 
 ## TRMNL Setup
 
-1. Create a private plugin in TRMNL.
-2. Paste the contents of [template.html](/Users/ms/code/personal/prayer-trmnl/template.html) into the plugin markup editor.
-3. Copy the plugin UUID from the plugin settings page.
-4. Create an API key in your TRMNL account settings.
+1. In TRMNL, create (or open) a Private Plugin.
+2. Set **Strategy** to **Polling** and **Polling Verb** to **GET**.
+3. Set **Polling URL** to:
 
-## Configuration
+   ```
+   https://api.aladhan.com/v1/timings/{{ "now" | date: "%s" | plus: trmnl.user.utc_offset | date: "%d-%m-%Y" }}?latitude=53.5461&longitude=-113.4937&method=2&timezonestring=America/Edmonton
+   ```
 
-Copy [.env.example](/Users/ms/code/personal/prayer-trmnl/.env.example) to `.env` or otherwise provide the same environment variables:
+   Click **Parse** under the box to check that it resolves to today's date.
+4. Set **Max refresh rate** to **Every 15 mins**.
+5. Open **Edit Markup**, paste the contents of [template.html](template.html) into the **Full** layout, and save.
+6. In **Account → Time zone, language, theme and beta features**, set the time zone to **Alberta**. The template uses the account's UTC offset for the date in the URL, the next-prayer comparison, and the refresh time in the title bar.
 
-```bash
-TRMNL_PLUGIN_UUID=your-plugin-uuid
-TRMNL_API_KEY=your-trmnl-api-key
-PRAYER_LATITUDE=53.5461
-PRAYER_LONGITUDE=-113.4937
-PRAYER_METHOD=2
-PRAYER_TIMEZONE=America/Edmonton
-```
+## Changing Location or Method
 
-## Environment Variables
+Edit the query string in the polling URL:
 
-- `TRMNL_PLUGIN_UUID`: private plugin UUID from TRMNL
-- `TRMNL_API_KEY`: TRMNL bearer token
-- `PRAYER_LATITUDE`: latitude used for prayer time lookup
-- `PRAYER_LONGITUDE`: longitude used for prayer time lookup
-- `PRAYER_METHOD`: AlAdhan calculation method id, defaults to `2`
-- `PRAYER_TIMEZONE`: IANA timezone used for determining "next prayer", defaults to `UTC`
+- `latitude` / `longitude`: where to calculate prayer times
+- `method`: AlAdhan calculation method id (`2` is ISNA)
+- `timezonestring`: IANA time zone the returned times are in; keep it the same as the TRMNL account's time zone
 
-## Local Usage
-
-Install nothing extra beyond Node 22+. The script uses the built-in `fetch` available in modern Node.
-
-Run:
-
-```bash
-node push.js
-```
-
-Or:
-
-```bash
-npm run push
-```
-
-Expected behavior:
-
-- fetch today's timings from AlAdhan
-- print the payload being sent
-- push `merge_variables` to your TRMNL private plugin
-
-## GitHub Actions Usage
-
-The workflow in [.github/workflows/push-prayer-times.yml](/Users/ms/code/personal/prayer-trmnl/.github/workflows/push-prayer-times.yml) runs every 30 minutes and can also be triggered manually.
-
-Configure these in GitHub:
-
-- repository secrets:
-  - `TRMNL_PLUGIN_UUID`
-  - `TRMNL_API_KEY`
-- repository variables:
-  - `PRAYER_LATITUDE`
-  - `PRAYER_LONGITUDE`
-  - `PRAYER_METHOD`
-  - `PRAYER_TIMEZONE`
-
-## Data Source
-
-Prayer times come from the [AlAdhan API](https://aladhan.com/prayer-times-api).
-
-## Notes
-
-- The template currently renders a list-first layout with one highlighted row for the upcoming prayer.
-- `push.js` still sends `hijri_date`, even though the current template does not display it.
-- If you want a different visual treatment, edit [template.html](/Users/ms/code/personal/prayer-trmnl/template.html) only; the pushed variable names are already in place.
+AlAdhan's time zone comes from `timezonestring`, while the template's notion of "now" comes from the TRMNL account time zone, so the two must agree.
